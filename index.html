@@ -398,26 +398,26 @@
     .att-cards { grid-template-columns: 1fr; }
 
     .table-wrap table { min-width: 560px; }
-    /* 모바일: 활동일지는 주차·날짜·소속·단체구분 숨기고, 단체명은 절대 잘리지 않게(줄바꿈 허용) */
+    /* 모바일: 활동일지는 주차·날짜·소속 숨기고, 단체구분(신규/정산) 다시 표시. 단체명·담당자는 줄여서 말줄임(클릭 시 전체 보기) */
     .table-wrap.log-table table { min-width: 0; width: 100%; table-layout: fixed; }
     .log-table th:nth-child(1), .log-table td:nth-child(1),
     .log-table th:nth-child(2), .log-table td:nth-child(2),
-    .log-table th:nth-child(3), .log-table td:nth-child(3),
-    .log-table th:nth-child(5), .log-table td:nth-child(5) { display: none; }
+    .log-table th:nth-child(3), .log-table td:nth-child(3) { display: none; }
     .log-table th, .log-table td { padding: 6px 3px !important; font-size: 10.5px !important; }
     .log-table th { overflow: hidden; text-overflow: ellipsis; }
-    .log-table th:nth-child(4), .log-table td:nth-child(4) { width: 11% !important; }
-    .log-table th:nth-child(6), .log-table td:nth-child(6) { width: 10% !important; }
-    .log-table th:nth-child(7), .log-table td:nth-child(7) { width: 32% !important; max-width: none !important; }
-    .log-table th:nth-child(8), .log-table td:nth-child(8) { width: 15% !important; max-width: none !important; }
-    .log-table th:nth-child(9), .log-table td:nth-child(9) { width: 11% !important; }
-    .log-table th:nth-child(10), .log-table td:nth-child(10) { width: 21% !important; }
-    .log-table td:nth-child(4), .log-table td:nth-child(6),
+    .log-table th:nth-child(4), .log-table td:nth-child(4) { width: 10% !important; }
+    .log-table th:nth-child(5), .log-table td:nth-child(5) { width: 9% !important; }
+    .log-table th:nth-child(6), .log-table td:nth-child(6) { width: 9% !important; }
+    .log-table th:nth-child(7), .log-table td:nth-child(7) { width: 24% !important; max-width: none !important; }
+    .log-table th:nth-child(8), .log-table td:nth-child(8) { width: 11% !important; max-width: none !important; }
+    .log-table th:nth-child(9), .log-table td:nth-child(9) { width: 9% !important; }
+    .log-table th:nth-child(10), .log-table td:nth-child(10) { width: 28% !important; }
+    .log-table td:nth-child(4), .log-table td:nth-child(6), .log-table td:nth-child(7),
     .log-table td:nth-child(8), .log-table td:nth-child(10) {
       white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis;
     }
-    .log-table td:nth-child(6) .badge { max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
-    .log-table td.td-orgname { white-space: normal !important; word-break: keep-all; overflow-wrap: break-word; }
+    .log-table td:nth-child(5) .badge, .log-table td:nth-child(6) .badge { max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+    .log-table td.td-orgname { text-decoration: underline; text-decoration-style: dotted; }
     .log-table .badge { padding: 2px 4px; font-size: 10px; }
 
     /* 모바일: 팀장 현황은 소속·점수 열 숨기고(현재/목표 점수는 달성률 위에 표시) 한 화면에 보이게 */
@@ -1064,7 +1064,7 @@ function renderLogTable() {
       <td class="td-name" style="cursor:pointer;text-decoration:underline;text-decoration-style:dotted" title="클릭하면 이 팀장만 필터링" onclick="filterByName('${esc(r.name)}')">${esc(r.name)}</td>
       <td>${r.category ? `<span class="badge badge-method">${esc(r.category)}</span>` : '—'}</td>
       <td>${r.scheme   ? `<span class="badge badge-method">${esc(r.scheme)}</span>`   : '—'}</td>
-      <td class="td-orgname" title="${esc(r.orgName)}">${esc(r.orgName) || '—'}</td>
+      <td class="td-orgname" style="cursor:pointer" title="${esc(r.orgName)}" onclick="showContentModal(this.title, '${esc(r.name)}', '${esc(r.actDate)}')">${esc(r.orgName) || '—'}</td>
       <td class="td-muted" style="white-space:nowrap;max-width:70px;overflow:hidden;text-overflow:ellipsis" title="${esc(r.contact)}">${r.contact ? esc(r.contact) : '—'}</td>
       <td><span class="badge badge-method">${r.method || '—'}</span></td>
       <td class="td-content" title="${esc(r.content)}" onclick="showContentModal(this.title, '${esc(r.name)}', '${esc(r.actDate)}')">${esc(r.content) || '—'}</td>
